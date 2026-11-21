@@ -1,0 +1,45 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 20MB
+  application:
+    name: applypilot-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/applypilot}
+    username: ${SPRING_DATASOURCE_USERNAME:applypilot}
+    password: ${SPRING_DATASOURCE_PASSWORD:change-me-local}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+    baseline-on-migrate: false
+management:
+  endpoints.web.exposure.include: health,info
+  endpoint.health.probes.enabled: true
+app:
+  jwt:
+    secret: ${APP_JWT_SECRET:change-this-development-secret-must-be-at-least-32-bytes-long}
+    expiration-minutes: ${APP_JWT_EXPIRATION_MINUTES:60}
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:3001}
+  ai-service:
+    base-url: ${APP_AI_SERVICE_BASE_URL:http://localhost:8000}
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:}
+    client-secret: ${GOOGLE_CLIENT_SECRET:}
+    redirect-uri: ${GOOGLE_REDIRECT_URI:http://localhost:8080/api/v1/integrations/google/callback}
+  frontend:
+    base-url: ${APP_FRONTEND_BASE_URL:http://localhost:3001}
+  security:
+    token-encryption-key: ${APP_TOKEN_ENCRYPTION_KEY:}
+  web-search:
+    tavily-api-key: ${TAVILY_API_KEY:}
+    openai-api-key: ${OPENAI_API_KEY:}
+    openai-model: ${OPENAI_WEB_SEARCH_MODEL:gpt-5.4}
+  storage:
+    resumes-dir: ${APP_STORAGE_RESUMES_DIR:storage/resumes}

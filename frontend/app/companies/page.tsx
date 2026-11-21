@@ -1,0 +1,2 @@
+import { EmptyState } from "@/components/EmptyState";
+export default function Companies() { return <><div className="topbar"><div><h1>Companies</h1><p className="lede">Review company information and publicly listed hiring contacts.</p></div></div><section className="section"><EmptyState icon="◫" title="No companies yet">Companies are created from discovered jobs. Contacts will preserve their source and verification status—no guessed addresses.</EmptyState></section></>; }

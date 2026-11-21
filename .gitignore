@@ -1,0 +1,13 @@
+.env
+.env.local
+**/target/
+**/.next/
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+*.py[cod]
+storage/resumes/*
+!storage/resumes/.gitkeep
+storage/uploads/
+!.gitkeep
+

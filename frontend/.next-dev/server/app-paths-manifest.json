@@ -1,0 +1,10 @@
+{
+  "/applications/page": "app/applications/page.js",
+  "/jobs/page": "app/jobs/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/approvals/page": "app/approvals/page.js",
+  "/resumes/page": "app/resumes/page.js",
+  "/integrations/page": "app/integrations/page.js",
+  "/analytics/page": "app/analytics/page.js",
+  "/settings/page": "app/settings/page.js"
+}

@@ -1,0 +1,2 @@
+import { EmptyState } from "@/components/EmptyState";
+export default function Analytics() { return <><div className="topbar"><div><h1>Analytics</h1><p className="lede">Understand your pipeline only from saved job and application data.</p></div></div><section className="section"><EmptyState icon="◔" title="Analytics will appear with your data">No charts are shown until real jobs and applications exist. This avoids presenting invented activity as progress.</EmptyState></section></>; }
