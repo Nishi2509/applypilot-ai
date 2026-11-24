@@ -27,6 +27,7 @@ export default function Approvals() {
   const [importing, setImporting] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<DraftEdit>({ recipientEmail: "", subject: "", body: "" });
+  const [actionInProgress, setActionInProgress] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -87,12 +88,16 @@ export default function Approvals() {
   }
 
   async function action(id: string, actionName: "approve-email" | "send-email") {
+    if (actionInProgress) return;
+    setActionInProgress(id);
     setError("");
     try {
       const updated = await api<Draft>(`/applications/${id}/${actionName}`, { method: "POST" });
       setDrafts(current => current.map(draft => draft.applicationId === id ? updated : draft));
     } catch (e) {
       setError(e instanceof ApiError ? e.message : "The action could not be completed.");
+    } finally {
+      setActionInProgress(null);
     }
   }
 
@@ -144,8 +149,8 @@ export default function Approvals() {
             <p style={{ whiteSpace: "pre-wrap" }}>{draft.body}</p>
             <div className="notice">{draft.attachmentNote}</div>
             <div className="form-actions">
-              {draft.status === "PENDING_APPROVAL" && <><button type="button" className="text-button" onClick={() => beginEditing(draft)}>Edit draft</button><button type="button" className="button" disabled={draft.attachmentMode !== "MASTER_PDF"} onClick={() => action(draft.applicationId, "approve-email")}>Approve draft</button></>}
-              {draft.status === "APPROVED" && <button type="button" className="button" onClick={() => action(draft.applicationId, "send-email")}>Send email now</button>}
+              {draft.status === "PENDING_APPROVAL" && <><button type="button" className="text-button" disabled={actionInProgress === draft.applicationId} onClick={() => beginEditing(draft)}>Edit draft</button><button type="button" className="button" disabled={draft.attachmentMode !== "MASTER_PDF" || actionInProgress === draft.applicationId} onClick={() => action(draft.applicationId, "approve-email")}>{actionInProgress === draft.applicationId ? "Approving…" : "Approve draft"}</button></>}
+              {draft.status === "APPROVED" && <button type="button" className="button" disabled={actionInProgress === draft.applicationId} onClick={() => action(draft.applicationId, "send-email")}>{actionInProgress === draft.applicationId ? "Sending email…" : "Send email now"}</button>}
               {draft.status === "SENT" && <span className="status ready">Sent</span>}
             </div>
           </>}
